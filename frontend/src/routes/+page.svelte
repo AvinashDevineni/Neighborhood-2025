@@ -1,12 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
-    type Question = {
-        question: string;
-        correct_answer: string;
-        incorrect_answers: string[];
-    };
-
     let questions = $state<Question[] | null>(null);
     let isError = $state(false);
 
@@ -54,7 +48,7 @@
 <style>
     :global(html, body) {
         color: white;
-        font-family: 'Roboto';
+        font-family: "Roboto";
     }
 
     :global(body) {
