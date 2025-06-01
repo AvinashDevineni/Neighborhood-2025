@@ -1,15 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
-	// "strings"
+	"strings"
+
 	// "time"
 	"html"
-
-
 )
 
 type Question struct{
@@ -17,7 +16,7 @@ type Question struct{
 	Type 			string 		 `json:"type"`
 	Difficulty		string 		`json:"difficulty"`
 	Question		string 		`json:"question"`
-	CorrectAnswer	string 		`json:"correct_answers"`
+	CorrectAnswer	string 		`json:"correct_answer"`
 	IncorrectAnswers []string	`json:"incorrect_answers"`
 
 }
@@ -66,8 +65,28 @@ func main() {
 		fmt.Printf("\nQuestion %d: %s\n", i+1, html.UnescapeString(q.Question))
 		options := append(q.IncorrectAnswers, q.CorrectAnswer)
 
-		fmt.Println(options)
+		for i, opt := range options {
+			fmt.Printf("  %c) %s\n", 'A'+i, html.UnescapeString(opt))
+		
+		}
+
+		var answer string
+		fmt.Print("Your answer (A, B, C, D): ")
+		fmt.Scanln(&answer)
+		answer = strings.TrimSpace(strings.ToUpper(answer))
+
+		index := int(answer[0] - 'A')
+		if index >= 0 && index < len(options) && options[index] == q.CorrectAnswer{
+			fmt.Println("Correct")
+		} else {
+			fmt.Printf("Wrong, the correct answer was %s\n", q.CorrectAnswer)
+		}
+
+
 	}
+	fmt.Print("The game is over!")
+
+	
 
 	
 	
