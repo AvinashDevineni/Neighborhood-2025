@@ -6,8 +6,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
-
-	// "time"
+	"time"
 	"html"
 )
 
@@ -53,6 +52,8 @@ func main() {
 	fmt.Scan(&amount_1)
 	fmt.Println("Fetching questions...")
 
+	
+
 	questions, err := fetchQuestions(amount_1)
 	if err != nil {
 		fmt.Println("Failed to fetch trivia questions: ", err)
@@ -64,6 +65,12 @@ func main() {
 	for i, q := range questions {
 		fmt.Printf("\nQuestion %d: %s\n", i+1, html.UnescapeString(q.Question))
 		options := append(q.IncorrectAnswers, q.CorrectAnswer)
+
+		for i := range options {
+			j := i + int(time.Now().UnixNano() )%len(options[i:])
+			options[i], options [j] = options[j], options [i]
+		
+		}
 
 		for i, opt := range options {
 			fmt.Printf("  %c) %s\n", 'A'+i, html.UnescapeString(opt))
